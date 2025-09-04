@@ -1,26 +1,34 @@
-import { useEffect, useState } from "react";
+// /src/components/Layout.tsx
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-interface NavProps {
-  sections: { id: string; title: string }[];
-}
+type SectionType = {
+  id: string;
+  title: string;
+  content: React.ReactNode;
+};
 
-export default function Navigation({ sections }: NavProps) {
-  const [active, setActive] = useState(sections[0].id);
+type LayoutProps = {
+  sections: SectionType[];
+};
+
+export default function Layout({ sections }: LayoutProps) {
+  const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActive(entry.target.id);
+            setActiveId(entry.target.id);
           }
         });
       },
-      { threshold: 0.4 }
+      { threshold: 0.3 }
     );
 
-    sections.forEach((s) => {
-      const el = document.getElementById(s.id);
+    sections.forEach((section) => {
+      const el = document.getElementById(section.id);
       if (el) observer.observe(el);
     });
 
@@ -28,19 +36,44 @@ export default function Navigation({ sections }: NavProps) {
   }, [sections]);
 
   return (
-    <nav className="hidden lg:flex flex-col fixed right-6 top-24 space-y-5">
-      {sections.map((s) => (
-        <a
-          key={s.id}
-          href={`#${s.id}`}
-          className={`transition-colors text-lg font-medium no-underline hover:no-underline hover:text-text ${
-            active === s.id ? "text-text" : "text-text"
-          }`}
-        >
-          {s.title}
-        </a>
-      ))}
-    </nav>
+    <div className="flex min-h-screen">
+      {/* Main content area (80%) */}
+      <main className="w-4/5 p-8 space-y-20 max-w-5xl mx-auto">
+        {sections.map((section) => (
+          <motion.section
+            id={section.id}
+            key={section.id}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
+          >
+            <h2 className="text-2xl font-bold">{section.title}</h2>
+            <div>{section.content}</div>
+          </motion.section>
+        ))}
+      </main>
+
+      {/* Sticky vertical navbar (20%) */}
+      <nav className="w-1/5 border-l border-gray-200 sticky top-0 h-screen p-6 bg-white shadow-lg">
+        <ul className="space-y-4 text-right">
+          {sections.map((section, idx) => (
+            <li key={section.id}>
+              <a
+                href={`#${section.id}`}
+                className={`font-semibold transition-colors duration-200 ${
+                  activeId === section.id
+                    ? "text-purple-600"
+                    : "text-gray-700 hover:text-purple-600"
+                }`}
+              >
+                {idx + 1}. {section.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   );
-  
 }
