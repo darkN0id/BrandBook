@@ -28,13 +28,13 @@ export default function Navigation({ sections }: NavProps) {
   }, [sections]);
 
   return (
-    <nav className="hidden lg:flex flex-col fixed right-6 top-24 space-y-3">
+    <nav className="hidden lg:flex flex-col fixed right-6 top-24 space-y-5">
       {sections.map((s) => (
         <a
           key={s.id}
           href={`#${s.id}`}
-          className={`transition-colors text-sm font-medium hover:text-secondaryMagenta ${
-            active === s.id ? "text-primaryPurple" : "text-gray-400"
+          className={`transition-colors text-lg font-medium no-underline hover:no-underline hover:text-text ${
+            active === s.id ? "text-text" : "text-text"
           }`}
         >
           {s.title}
@@ -42,4 +42,5 @@ export default function Navigation({ sections }: NavProps) {
       ))}
     </nav>
   );
+  
 }

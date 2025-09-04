@@ -6,6 +6,7 @@ export default {
       colors: {
         primaryPurple: "#5C3C80",
         secondaryMagenta: "#96397C",
+        text:"#FFFFFF"
       },
     },
   },
