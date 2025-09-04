@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('/fonts/OriginTech.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+body {
+  font-family: 'MyFont';
+  background-image: url('/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: white;
+}
