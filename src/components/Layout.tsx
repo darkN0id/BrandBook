@@ -1,9 +1,10 @@
+import React from "react";
 import Navigation from "./Navigation";
 import Section from "./Section";
 import { motion } from "framer-motion";
 
 type LayoutProps = {
-  sections: { id: string; title: string; content: JSX.Element }[];
+  sections: { id: string; title: string; content: React.ReactNode }[];
 };
 
 export default function Layout({ sections }: LayoutProps) {
